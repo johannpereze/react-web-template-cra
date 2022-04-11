@@ -1,7 +1,8 @@
 const en = {
   translation: {
     general: {
-      hello_world: "Hello World",
+      login: "Login",
+      language: "Language",
     },
   },
 };

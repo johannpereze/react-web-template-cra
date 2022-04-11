@@ -1,7 +1,8 @@
 const es = {
   translation: {
     general: {
-      hello_world: "Hola Mundo",
+      login: "Inicio de Sesión",
+      language: "Lenguaje",
     },
   },
 };

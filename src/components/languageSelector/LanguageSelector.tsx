@@ -1,3 +1,4 @@
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 interface Lngs {
@@ -9,30 +10,36 @@ interface Lang {
   nativeName: string;
 }
 
-const lngs: Lngs = {
-  en: { nativeName: "English" },
-  es: { nativeName: "Spanish" },
-};
-
 export default function LanguageSelector() {
   const { t, i18n } = useTranslation();
+
+  const lngs: Lngs = {
+    en: { nativeName: "English" },
+    es: { nativeName: "Spanish" },
+  };
+
   return (
     <>
-      <div>
-        {Object.keys(lngs).map((lng) => (
-          <button
-            key={lng}
-            style={{
-              fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
-            }}
-            type="submit"
-            onClick={() => i18n.changeLanguage(lng)}
-          >
-            {lngs[lng as keyof Lngs].nativeName}
-          </button>
-        ))}
-      </div>
-      <p>{t("general.hello_world")}</p>
+      <FormControl fullWidth>
+        <InputLabel id="language-selector-select">
+          {t("general.language")}
+        </InputLabel>
+        <Select
+          labelId="language-selector-select"
+          fullWidth
+          size="small"
+          name="language"
+          label="Language"
+          value={i18n.resolvedLanguage}
+          onChange={(e) => i18n.changeLanguage(e.target.value)}
+        >
+          {Object.keys(lngs).map((lng) => (
+            <MenuItem key={lng} value={lng}>
+              {lng}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </>
   );
 }
