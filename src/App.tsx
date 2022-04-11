@@ -1,12 +1,11 @@
-import Counter from "./features/counter/Counter";
-import LanguageSelector from "./features/languageSelector/LanguageSelector";
+import ThemeManager from "./components/managers/ThemeManager";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <>
-      <Counter />
-      <LanguageSelector />
-    </>
+    <ThemeManager>
+      <Login />
+    </ThemeManager>
   );
 }
 

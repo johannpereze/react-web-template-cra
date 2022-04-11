@@ -1,9 +1,12 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
+// Change Slice to Reducer because the export ir fooSlice.reducer
+import counterReducer from "../components/counter/counterSlice";
+import themeManagerReducer from "../components/managers/themeManagerSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    themeManager: themeManagerReducer,
   },
 });
 
