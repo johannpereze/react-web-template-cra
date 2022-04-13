@@ -1,7 +1,8 @@
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import LanguageSelector from "../components/languageSelector/LanguageSelector";
-import ThemeSelector from "../components/themeSelector/ThemeSelector";
+import LanguageSelector from "../../components/languageSelector/LanguageSelector";
+import ThemeSelector from "../../components/themeSelector/ThemeSelector";
+import LoginForm from "./LoginForm";
 
 export default function Login() {
   const { t } = useTranslation();
@@ -25,13 +26,12 @@ export default function Login() {
             width: 300,
             display: "flex",
             flexDirection: "column",
-            p: 3,
+            px: 3,
+            py: 1,
             my: 1,
           }}
         >
-          <TextField />
-          <TextField />
-          <Button variant="outlined">Login</Button>
+          <LoginForm />
         </Paper>
         <Paper
           elevation={0}
