@@ -45,7 +45,8 @@ export default function Login() {
           }}
         >
           <Typography variant="body2">
-            {t("login.not_registered")} {t("login.create_an_account")}
+            {t("login.not_registered")}{" "}
+            <a href="/">{t("login.create_an_account")}</a>
           </Typography>
         </Paper>
       </Grid>
@@ -63,12 +64,11 @@ export default function Login() {
             <Grid item xs={6}>
               <LanguageSelector />
             </Grid>
+            <Grid item xs={6}>
+              <ThemeSelector />
+            </Grid>
           </Grid>
         </Box>
-      </Grid>
-
-      <Grid item xs={12}>
-        <ThemeSelector />
       </Grid>
     </Grid>
   );
