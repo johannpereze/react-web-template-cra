@@ -17,12 +17,12 @@ export default function TextField({
   return (
     <MuiTexField
       fullWidth={fullWidth}
-      name={pick(name, formik.values)}
+      name={name}
       label={label}
-      value={formik.values.email}
+      value={pick(name, formik.values)}
       onChange={formik.handleChange}
-      error={formik.touched.email && Boolean(formik.errors.email)}
-      helperText={formik.touched.email && formik.errors.email}
+      error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
+      helperText={pick(name, formik.touched) && pick(name, formik.errors)}
     />
   );
 }

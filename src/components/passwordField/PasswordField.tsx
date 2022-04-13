@@ -7,6 +7,7 @@ import {
   OutlinedInput as MuiOutlinedInput,
 } from "@mui/material";
 import { pick } from "dot-object";
+import { t } from "i18next";
 import { MouseEvent, useState } from "react";
 
 interface TextFieldProps {
@@ -36,18 +37,19 @@ export default function PasswordField({
 
   return (
     <FormControl variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+      {/* TODO: Error prop missing for inputlabel */}
+      <InputLabel htmlFor={name}>{t("login.password")}</InputLabel>
 
       <MuiOutlinedInput
         fullWidth={fullWidth}
-        id="outlined-adornment-password"
+        id={name}
         type={showPassword ? "text" : "password"}
-        name={pick(name, formik.values)}
+        name={name}
         label={label}
-        value={formik.values.email}
+        value={pick(name, formik.values)}
         onChange={formik.handleChange}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        // helperText={formik.touched.email && formik.errors.email}
+        error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
+        // helperText={pick(name, formik.touched) && pick(name, formik.errors)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

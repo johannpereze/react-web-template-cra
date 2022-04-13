@@ -34,7 +34,7 @@ export default function LoginForm() {
         <TextField
           fullWidth
           formik={formik}
-          name="password"
+          name="email"
           label={t("login.email")}
         />
       </Box>
@@ -42,7 +42,7 @@ export default function LoginForm() {
         <PasswordField
           fullWidth
           formik={formik}
-          name="email"
+          name="password"
           label={t("login.password")}
         />
       </Box>
