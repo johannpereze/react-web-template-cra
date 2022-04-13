@@ -1,10 +1,12 @@
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { Box, IconButton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useAppDispatch } from "../../app/hooks";
-import { changeThemeStyle } from "../managers/themeManagerSlice";
+import {
+  changeThemeMode,
+  changeThemeStyle,
+} from "../managers/themeManagerSlice";
 
 export default function ThemeSelector() {
   const theme = useTheme();
@@ -12,6 +14,7 @@ export default function ThemeSelector() {
 
   const toggleThemeStyle = () => {
     dispatch(changeThemeStyle());
+    dispatch(changeThemeMode());
   };
 
   return (
