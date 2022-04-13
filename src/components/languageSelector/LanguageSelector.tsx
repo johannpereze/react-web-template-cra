@@ -35,7 +35,7 @@ export default function LanguageSelector() {
         >
           {Object.keys(lngs).map((lng) => (
             <MenuItem key={lng} value={lng}>
-              {lng}
+              {t(`general.${lng}`)}
             </MenuItem>
           ))}
         </Select>

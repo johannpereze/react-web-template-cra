@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { useMemo } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
@@ -18,5 +18,10 @@ export default function ThemeManager({ children }: ThemeManagerProps) {
       }),
     [themeManager.themeStyle]
   );
-  return <ThemeProvider theme={customTheme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={customTheme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
 }
