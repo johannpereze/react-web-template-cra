@@ -1,6 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -38,7 +39,12 @@ export default function PasswordField({
   return (
     <FormControl variant="outlined">
       {/* TODO: Error prop missing for inputlabel */}
-      <InputLabel htmlFor={name}>{t("login.password")}</InputLabel>
+      <InputLabel
+        error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
+        htmlFor={name}
+      >
+        {t("login.password")}
+      </InputLabel>
 
       <MuiOutlinedInput
         fullWidth={fullWidth}
@@ -63,6 +69,9 @@ export default function PasswordField({
           </InputAdornment>
         }
       />
+      {pick(name, formik.touched) && Boolean(pick(name, formik.errors)) && (
+        <FormHelperText error>{pick(name, formik.errors)}</FormHelperText>
+      )}
     </FormControl>
   );
 }
