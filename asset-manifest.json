@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/react-web-template-cra/static/js/main.77732ccd.js",
+    "main.js": "/react-web-template-cra/static/js/main.ed64104c.js",
     "index.html": "/react-web-template-cra/index.html",
-    "main.77732ccd.js.map": "/react-web-template-cra/static/js/main.77732ccd.js.map"
+    "main.ed64104c.js.map": "/react-web-template-cra/static/js/main.ed64104c.js.map"
   },
   "entrypoints": [
-    "static/js/main.77732ccd.js"
+    "static/js/main.ed64104c.js"
   ]
 }
