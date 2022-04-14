@@ -104,7 +104,7 @@ export default function LoginForm() {
           <Typography variant="body2" sx={{ mt: 0.3 }}>
             {t("login.i_accept")}{" "}
             <Link component={NavLink} to="/privacy-policy">
-              {t("general.therms_and_conditions")}
+              {t("general.terms_and_conditions")}
             </Link>
           </Typography>
         }

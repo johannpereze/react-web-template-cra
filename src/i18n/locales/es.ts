@@ -7,7 +7,7 @@ const es = {
       es: "Español",
       dark_mode: "Modo oscuro",
       light_mode: "Modo claro",
-      therms_and_conditions: "Términos y condiciones",
+      terms_and_conditions: "Términos y condiciones",
     },
     errors: {
       enter_a_valid_email: "Ingresa un email válido",

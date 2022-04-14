@@ -28,6 +28,21 @@ export default function ThemeManager({ children }: ThemeManagerProps) {
       createTheme({
         palette: {
           mode: paletteMode(),
+          ...(paletteMode() === "light"
+            ? {
+                // palette values for light mode
+                background: {
+                  paper: "#fff",
+                  default: "#f8f8f8",
+                },
+              }
+            : {
+                // palette values for dark mode
+                background: {
+                  paper: "#121212",
+                  default: "#121212",
+                },
+              }),
         },
       }),
     [themeManager.themeStyle]
