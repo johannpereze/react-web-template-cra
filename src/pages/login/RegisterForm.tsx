@@ -9,6 +9,7 @@ import {
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
@@ -16,6 +17,7 @@ import TextField from "../../components/textField/TextField";
 export default function LoginForm() {
   const [termsChecked, setTermsChecked] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -45,13 +47,11 @@ export default function LoginForm() {
     validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      navigate("/");
     },
     validateOnBlur: true,
     validateOnMount: true,
   });
-
-  console.log("formik.touched", formik.touched);
-  console.log("formik.errors", formik.errors);
 
   return (
     <Box
@@ -103,7 +103,7 @@ export default function LoginForm() {
         label={
           <Typography variant="body2" sx={{ mt: 0.3 }}>
             {t("login.i_accept")}{" "}
-            <Link href="/privacy-policy">
+            <Link component={NavLink} to="/privacy-policy">
               {t("general.therms_and_conditions")}
             </Link>
           </Typography>

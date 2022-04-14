@@ -1,17 +1,20 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Link, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
+import RecoveryForm from "./RecoveryForm";
 import RegisterForm from "./RegisterForm";
 
 interface LoginProps {
   register?: boolean;
+  passwordRecovery?: boolean;
 }
 
-export default function Login({ register }: LoginProps) {
+export default function Login({ register, passwordRecovery }: LoginProps) {
   const { t } = useTranslation();
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -37,26 +40,46 @@ export default function Login({ register }: LoginProps) {
             my: 1,
           }}
         >
-          {register ? <RegisterForm /> : <LoginForm />}
+          {register && <RegisterForm />}
+          {passwordRecovery && <RecoveryForm />}
+          {!register && !passwordRecovery && <LoginForm />}
         </Paper>
-        {!register && (
-          <Paper
-            elevation={0}
-            variant="outlined"
-            sx={{
-              width: 300,
-              display: "flex",
-              justifyContent: "center",
-              p: 2,
-              my: 1,
-            }}
-          >
+        <Paper
+          elevation={0}
+          variant="outlined"
+          sx={{
+            width: 300,
+            display: "flex",
+            justifyContent: "center",
+            p: 2,
+            my: 1,
+          }}
+        >
+          {register && (
+            <Typography variant="body2">
+              {t("login.already_registered")}{" "}
+              <Link component={NavLink} to="/">
+                {t("login.log_in")}
+              </Link>
+            </Typography>
+          )}
+          {passwordRecovery && (
+            <Typography variant="body2">
+              {t("login.go_back_to")}{" "}
+              <Link component={NavLink} to="/">
+                {t("general.login")}
+              </Link>
+            </Typography>
+          )}
+          {!passwordRecovery && !register && (
             <Typography variant="body2">
               {t("login.not_registered")}{" "}
-              <Link to="/register">{t("login.create_an_account")}</Link>
+              <Link component={NavLink} to="/register">
+                {t("login.create_an_account")}
+              </Link>
             </Typography>
-          </Paper>
-        )}
+          )}
+        </Paper>
       </Grid>
       <Grid
         item
@@ -84,4 +107,5 @@ export default function Login({ register }: LoginProps) {
 
 Login.defaultProps = {
   register: false,
+  passwordRecovery: false,
 };

@@ -16,6 +16,7 @@ const es = {
         "La contraseña debe tener al menos 8 caracteres",
       password_is_required: "La contraseña es obligatoria",
       name_is_required: "El nombre es obligatorio",
+      your_passwords_do_not_match: "Tus contraseñas no coinciden",
     },
     login: {
       log_in: "Iniciar sesión",
@@ -25,9 +26,15 @@ const es = {
       email: "Email",
       password: "Contraseña",
       forgot_password: "¿Olvidaste la contraseña?",
+      password_recovery: "Recuperación de contraseña",
+      recover_password: "Recuperar contraseña",
       i_accept: "Acepto los",
       repeat_password: "Repite la contraseña",
       name: "Nombre",
+      instructions_will_be_sent:
+        "Te enviaremos a tu bandeja de entrada las instrucciones para restablecer tu contraseña.",
+      already_registered: "Ya tienes cuenta?",
+      go_back_to: "Volver a",
     },
   },
 };

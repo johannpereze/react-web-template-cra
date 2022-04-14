@@ -16,6 +16,7 @@ const en = {
         "Password should be of minimum 8 characters length",
       password_is_required: "Password is required",
       name_is_required: "Name is required",
+      your_passwords_do_not_match: "Your passwords don't match",
     },
     login: {
       log_in: "Log in",
@@ -25,9 +26,15 @@ const en = {
       email: "Email",
       password: "Password",
       forgot_password: "Forgot password?",
+      password_recovery: "Password recovery",
+      recover_password: "Recover password",
       i_accept: "I accept",
       repeat_password: "Repeat password",
       name: "Name",
+      instructions_will_be_sent:
+        "We will send to your inbox the instructions to reset your password",
+      already_registered: "Already registered?",
+      go_back_to: "Go back to",
     },
   },
 };
