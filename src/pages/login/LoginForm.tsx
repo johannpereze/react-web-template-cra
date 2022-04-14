@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -27,10 +27,12 @@ export default function LoginForm() {
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
+    validateOnBlur: true,
+    validateOnMount: true,
   });
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>
-      <Box sx={{ my: 2 }}>
+      <Box sx={{ mt: 2, mb: 0 }}>
         <TextField
           fullWidth
           formik={formik}
@@ -38,7 +40,7 @@ export default function LoginForm() {
           label={t("login.email")}
         />
       </Box>
-      <Box sx={{ my: 2 }}>
+      <Box sx={{ mt: 2, mb: 0 }}>
         <PasswordField
           fullWidth
           formik={formik}
@@ -46,14 +48,20 @@ export default function LoginForm() {
           label={t("login.password")}
         />
       </Box>
-      <Button fullWidth variant="contained" type="submit">
+      <Button
+        fullWidth
+        variant="contained"
+        type="submit"
+        disabled={formik.isSubmitting || !formik.isValid}
+        sx={{ mt: 3 }}
+      >
         {t("login.log_in")}
       </Button>
       <Typography
-        sx={{ display: "flex", justifyContent: "end", mt: 1 }}
+        sx={{ display: "flex", justifyContent: "end", mt: 2, mb: 1 }}
         variant="body2"
       >
-        <a href="/">{t("login.forgot_password")}</a>
+        <Link href="/">{t("login.forgot_password")}</Link>
       </Typography>
     </Box>
   );

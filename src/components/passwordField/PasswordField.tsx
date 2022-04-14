@@ -8,7 +8,6 @@ import {
   OutlinedInput as MuiOutlinedInput,
 } from "@mui/material";
 import { pick } from "dot-object";
-import { t } from "i18next";
 import { MouseEvent, useState } from "react";
 
 interface TextFieldProps {
@@ -43,7 +42,7 @@ export default function PasswordField({
         error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
         htmlFor={name}
       >
-        {t("login.password")}
+        {label}
       </InputLabel>
 
       <MuiOutlinedInput
@@ -55,7 +54,7 @@ export default function PasswordField({
         value={pick(name, formik.values)}
         onChange={formik.handleChange}
         error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
-        // helperText={pick(name, formik.touched) && pick(name, formik.errors)}
+        onBlur={() => formik.setFieldTouched(name, true)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

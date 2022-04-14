@@ -1,10 +1,16 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
-export default function Login() {
+interface LoginProps {
+  register?: boolean;
+}
+
+export default function Login({ register }: LoginProps) {
   const { t } = useTranslation();
   return (
     <Grid container spacing={2}>
@@ -31,24 +37,26 @@ export default function Login() {
             my: 1,
           }}
         >
-          <LoginForm />
+          {register ? <RegisterForm /> : <LoginForm />}
         </Paper>
-        <Paper
-          elevation={0}
-          variant="outlined"
-          sx={{
-            width: 300,
-            display: "flex",
-            justifyContent: "center",
-            p: 2,
-            my: 1,
-          }}
-        >
-          <Typography variant="body2">
-            {t("login.not_registered")}{" "}
-            <a href="/">{t("login.create_an_account")}</a>
-          </Typography>
-        </Paper>
+        {!register && (
+          <Paper
+            elevation={0}
+            variant="outlined"
+            sx={{
+              width: 300,
+              display: "flex",
+              justifyContent: "center",
+              p: 2,
+              my: 1,
+            }}
+          >
+            <Typography variant="body2">
+              {t("login.not_registered")}{" "}
+              <Link to="/register">{t("login.create_an_account")}</Link>
+            </Typography>
+          </Paper>
+        )}
       </Grid>
       <Grid
         item
@@ -59,7 +67,7 @@ export default function Login() {
           flexDirection: "column",
         }}
       >
-        <Box sx={{ width: 300 }}>
+        <Box sx={{ width: 300, mb: 10 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <LanguageSelector />
@@ -73,3 +81,7 @@ export default function Login() {
     </Grid>
   );
 }
+
+Login.defaultProps = {
+  register: false,
+};

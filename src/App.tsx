@@ -1,11 +1,14 @@
+import { BrowserRouter } from "react-router-dom";
 import ThemeManager from "./components/managers/ThemeManager";
-import Login from "./pages/login/Login";
+import AppRouter from "./routers/AppRouter";
 
 function App() {
   return (
-    <ThemeManager>
-      <Login />
-    </ThemeManager>
+    <BrowserRouter>
+      <ThemeManager>
+        <AppRouter />
+      </ThemeManager>
+    </BrowserRouter>
   );
 }
 

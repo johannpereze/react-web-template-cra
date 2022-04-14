@@ -23,6 +23,7 @@ export default function TextField({
       onChange={formik.handleChange}
       error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
       helperText={pick(name, formik.touched) && pick(name, formik.errors)}
+      onBlur={() => formik.setFieldTouched(name, true)}
     />
   );
 }
