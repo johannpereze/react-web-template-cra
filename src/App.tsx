@@ -4,7 +4,7 @@ import AppRouter from "./routers/AppRouter";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/react-web-template-cra">
       <ThemeManager>
         <AppRouter />
       </ThemeManager>
