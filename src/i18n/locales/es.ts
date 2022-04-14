@@ -7,10 +7,27 @@ const es = {
       es: "Español",
       dark_mode: "Modo oscuro",
       light_mode: "Modo claro",
+      therms_and_conditions: "Términos y condiciones",
+    },
+    errors: {
+      enter_a_valid_email: "Ingresa un email válido",
+      email_is_required: "El email es obligatorio",
+      password_should_be_of_minimum_8_characters_length:
+        "La contraseña debe tener al menos 8 caracteres",
+      password_is_required: "La contraseña es obligatoria",
+      name_is_required: "El nombre es obligatorio",
     },
     login: {
+      log_in: "Iniciar sesión",
+      create_account: "Crear cuenta",
       not_registered: "Sin registrarte?",
       create_an_account: "Crear una cuenta.",
+      email: "Email",
+      password: "Contraseña",
+      forgot_password: "¿Olvidaste la contraseña?",
+      i_accept: "Acepto los",
+      repeat_password: "Repite la contraseña",
+      name: "Nombre",
     },
   },
 };
