@@ -12,22 +12,14 @@ import {
 import { KeyboardEvent, MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-import { toggleDrawerState } from "../header/headerSlice";
+import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 
 export default function SwipeableTemporaryDrawer() {
   const { showDrawer } = useAppSelector((state: RootState) => state.header);
   const dispatch = useAppDispatch();
 
   const toggleDrawer = (event: KeyboardEvent | MouseEvent) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      ((event as KeyboardEvent).key === "Tab" ||
-        (event as KeyboardEvent).key === "Shift")
-    ) {
-      return;
-    }
-    dispatch(toggleDrawerState());
+    toggleMenuDrawer({ event, dispatch });
   };
 
   const list = () => (

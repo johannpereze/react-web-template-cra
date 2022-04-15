@@ -11,8 +11,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { KeyboardEvent, MouseEvent, useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
+import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
-import { toggleDrawerState } from "./headerSlice";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,15 +29,7 @@ export default function Header() {
   };
 
   const toggleDrawer = (event: KeyboardEvent | MouseEvent) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      ((event as KeyboardEvent).key === "Tab" ||
-        (event as KeyboardEvent).key === "Shift")
-    ) {
-      return;
-    }
-    dispatch(toggleDrawerState());
+    toggleMenuDrawer({ event, dispatch });
   };
 
   const renderMenu = (
