@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import ThemeManager from "./components/managers/ThemeManager";
+import ThemeManager from "./components/managers/themeManager/ThemeManager";
 import AppRouter from "./routers/AppRouter";
 
 function App() {

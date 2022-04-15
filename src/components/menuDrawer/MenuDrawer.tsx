@@ -2,7 +2,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import {
   Box,
-  Button,
   Divider,
   List,
   ListItem,
@@ -10,12 +9,16 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
-import { KeyboardEvent, MouseEvent, useState } from "react";
+import { KeyboardEvent, MouseEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
+import { toggleDrawerState } from "../header/headerSlice";
 
 export default function SwipeableTemporaryDrawer() {
-  const [showDrawer, setShowDrawer] = useState(false);
+  const { showDrawer } = useAppSelector((state: RootState) => state.header);
+  const dispatch = useAppDispatch();
 
-  const toggleDrawer = () => (event: KeyboardEvent | MouseEvent) => {
+  const toggleDrawer = (event: KeyboardEvent | MouseEvent) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -24,16 +27,15 @@ export default function SwipeableTemporaryDrawer() {
     ) {
       return;
     }
-
-    setShowDrawer(!showDrawer);
+    dispatch(toggleDrawerState());
   };
 
   const list = () => (
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onClick={toggleDrawer()}
-      onKeyDown={toggleDrawer()}
+      onClick={toggleDrawer}
+      onKeyDown={toggleDrawer}
     >
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
@@ -62,12 +64,11 @@ export default function SwipeableTemporaryDrawer() {
   return (
     <div>
       <Box>
-        <Button onClick={toggleDrawer()}>Left</Button>
         <SwipeableDrawer
           anchor="left"
           open={showDrawer}
-          onClose={toggleDrawer()}
-          onOpen={toggleDrawer()}
+          onClose={toggleDrawer}
+          onOpen={toggleDrawer}
         >
           {list()}
         </SwipeableDrawer>

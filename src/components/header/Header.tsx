@@ -9,11 +9,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { MouseEvent, useState } from "react";
+import { KeyboardEvent, MouseEvent, useState } from "react";
+import { useAppDispatch } from "../../app/hooks";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
+import { toggleDrawerState } from "./headerSlice";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const dispatch = useAppDispatch();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -23,6 +26,18 @@ export default function Header() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const toggleDrawer = (event: KeyboardEvent | MouseEvent) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      ((event as KeyboardEvent).key === "Tab" ||
+        (event as KeyboardEvent).key === "Shift")
+    ) {
+      return;
+    }
+    dispatch(toggleDrawerState());
   };
 
   const renderMenu = (
@@ -55,6 +70,7 @@ export default function Header() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={toggleDrawer}
           >
             <MenuIcon />
           </IconButton>

@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../app/hooks";
 import {
   changeThemeMode,
   changeThemeStyle,
-} from "../managers/themeManagerSlice";
+} from "../managers/themeManager/themeManagerSlice";
 
 export default function ThemeSelector() {
   const theme = useTheme();

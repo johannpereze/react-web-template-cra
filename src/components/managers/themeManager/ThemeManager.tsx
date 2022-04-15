@@ -6,21 +6,23 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useMemo } from "react";
-import { useAppSelector } from "../../app/hooks";
-import { RootState } from "../../app/store";
+import { useAppSelector } from "../../../app/hooks";
+import { RootState } from "../../../app/store";
 
 interface ThemeManagerProps {
   children: JSX.Element;
 }
 export default function ThemeManager({ children }: ThemeManagerProps) {
-  const themeManager = useAppSelector((state: RootState) => state.themeManager);
+  const { themeMode, themeStyle } = useAppSelector(
+    (state: RootState) => state.themeManager
+  );
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const paletteMode = (): PaletteMode | undefined => {
-    if (themeManager.themeMode === "inherited") {
+    if (themeMode === "inherited") {
       return prefersDarkMode ? "dark" : "light";
     }
-    return themeManager.themeStyle;
+    return themeStyle;
   };
 
   const customTheme = useMemo(
@@ -45,7 +47,7 @@ export default function ThemeManager({ children }: ThemeManagerProps) {
               }),
         },
       }),
-    [themeManager.themeStyle]
+    [themeStyle]
   );
   return (
     <ThemeProvider theme={customTheme}>
