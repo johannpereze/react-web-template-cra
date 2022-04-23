@@ -13,13 +13,18 @@ import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
+import type { SignInValues } from "./Login";
 
-export default function LoginForm() {
+interface RegisterFormProps {
+  submit: (values: SignInValues) => void;
+}
+
+export default function RegisterForm({ submit }: RegisterFormProps) {
   const [termsChecked, setTermsChecked] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const validationSchema = yup.object({
-    name: yup
+    username: yup
       .string()
       .min(3, t("errors.name_should_be_of_minimum_3_characters_length"))
       .required(t("errors.name_is_required")),
@@ -37,16 +42,19 @@ export default function LoginForm() {
       .required(t("errors.password_is_required")),
   });
 
+  const initialValues: SignInValues = {
+    username: "",
+    email: "",
+    password: "",
+    password2: "",
+  };
+
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
-    },
+    initialValues,
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      console.log(values);
+      submit(values);
       navigate("/");
     },
     validateOnBlur: true,
@@ -63,7 +71,7 @@ export default function LoginForm() {
         <TextField
           fullWidth
           formik={formik}
-          name="name"
+          name="username"
           label={t("login.name")}
         />
       </Box>

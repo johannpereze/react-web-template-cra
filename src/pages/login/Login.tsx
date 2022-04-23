@@ -1,12 +1,26 @@
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
+import { CognitoUserAttribute } from "amazon-cognito-identity-js";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
+import userPool from "../../Auth/cognito";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
 import RecoveryForm from "./RecoveryForm";
 import RegisterForm from "./RegisterForm";
 
+interface LoginValues {
+  email: string;
+  password: string;
+}
+
+interface userValues extends LoginValues {
+  username: string;
+}
+export interface SignInValues extends LoginValues {
+  username: string;
+  password2: string;
+}
 interface LoginProps {
   register?: boolean;
   passwordRecovery?: boolean;
@@ -14,6 +28,36 @@ interface LoginProps {
 
 export default function Login({ register, passwordRecovery }: LoginProps) {
   const { t } = useTranslation();
+
+  const singUpSubmit = (values: SignInValues) => {
+    console.log("Hacemos Sign In");
+    const user: userValues = {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    };
+    const attrList: CognitoUserAttribute[] = [];
+    const emailAttribute = {
+      Name: "email",
+      Value: values.email,
+    };
+    attrList.push(new CognitoUserAttribute(emailAttribute));
+    userPool.signUp(
+      user.username,
+      user.password,
+      attrList,
+      // @ts-ignore
+      null,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+        }
+      }
+    );
+    console.log("Login", attrList, emailAttribute);
+  };
 
   return (
     <Grid container spacing={2}>
@@ -40,7 +84,7 @@ export default function Login({ register, passwordRecovery }: LoginProps) {
             my: 1,
           }}
         >
-          {register && <RegisterForm />}
+          {register && <RegisterForm submit={singUpSubmit} />}
           {passwordRecovery && <RecoveryForm />}
           {!register && !passwordRecovery && <LoginForm />}
         </Paper>
