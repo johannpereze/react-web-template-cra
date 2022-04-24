@@ -16,10 +16,19 @@ const en = {
         "Password should be of minimum 8 characters length",
       password_is_required: "Password is required",
       name_is_required: "Name is required",
+      last_name_is_required: "Last Name is required",
       your_passwords_do_not_match: "Your passwords don't match",
       confirmation_code_should_be_a_6_digits_number:
         "Confirmation code should be a 6 digits number",
       confirmation_code_is_required: "Confirmation code is required",
+      Username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers:
+        "Username should be of 8-20 characters length, and only contain letters, numbers, underscore (_), period (.) and no spaces.",
+      // last_name_should_be_of_minimum_3_characters_length:
+      //   "Last name should be of minimum 3 characters length",
+      name_should_be_of_maximum_20_characters_length:
+        "Name should be of maximum 20 characters length",
+      // last_name_should_be_of_maximum_20_characters_length:
+      //   "lastname should be of maximum 20 characters length",
     },
     login: {
       log_in: "Log in",
@@ -34,6 +43,8 @@ const en = {
       i_accept: "I accept",
       repeat_password: "Repeat password",
       name: "Name",
+      last_name: "Last name",
+      user_name: "User Name",
       instructions_will_be_sent:
         "We will send to your inbox the instructions to reset your password",
       already_registered: "Already registered?",

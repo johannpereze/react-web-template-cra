@@ -26,8 +26,22 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
   const validationSchema = yup.object({
     username: yup
       .string()
-      .min(3, t("errors.name_should_be_of_minimum_3_characters_length"))
-      .required(t("errors.name_is_required")),
+      /*
+       * ^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$
+       * └─────┬────┘└───┬──┘└─────┬─────┘└─────┬─────┘ └───┬───┘
+       * │         │         │            │           no _ or . at the end
+       * │         │         │            allowed characters
+       * │         │         no __ or _. or ._ or .. inside
+       * │         no _ or . at the beginning
+       * username is 8-20 characters long
+       */
+      .matches(
+        /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+        t(
+          "errors.Username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers"
+        )
+      )
+      .required(t("errors.username_is_required")),
     email: yup
       .string()
       .email(t("errors.enter_a_valid_email"))
@@ -53,9 +67,8 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       submit(values);
-      navigate("/");
+      navigate("/confirmation-code");
     },
     validateOnBlur: true,
     validateOnMount: true,
@@ -72,7 +85,7 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
           fullWidth
           formik={formik}
           name="username"
-          label={t("login.name")}
+          label={t("login.user_name")}
         />
       </Box>
       <Box sx={{ mt: 2, mb: 0 }}>

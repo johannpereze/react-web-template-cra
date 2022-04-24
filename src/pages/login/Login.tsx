@@ -1,8 +1,10 @@
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
-import { CognitoUserAttribute } from "amazon-cognito-identity-js";
+import { CognitoUser, CognitoUserAttribute } from "amazon-cognito-identity-js";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
-import userPool from "../../Auth/cognito";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { updateUserName } from "../../Auth/authSlice";
+import userPool, { CognitoSignUpResponse } from "../../Auth/cognito";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
@@ -22,15 +24,22 @@ export interface SignInValues extends LoginValues {
   username: string;
   password2: string;
 }
+
+export interface ConfirmCode {
+  confirmCode: string;
+}
 interface LoginProps {
   step: "login" | "register" | "passwordRecovery" | "confirmationCode";
 }
 
 export default function Login({ step }: LoginProps) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const username = useAppSelector((state) => state.auth.username);
 
   const singUpSubmit = (values: SignInValues) => {
-    console.log("Hacemos Sign In");
     const user: userValues = {
       username: values.username,
       email: values.email,
@@ -48,15 +57,36 @@ export default function Login({ step }: LoginProps) {
       attrList,
       // @ts-ignore
       null,
+      (err, result: CognitoSignUpResponse) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+          dispatch(updateUserName(result.user.username));
+        }
+      }
+    );
+    console.log("Login", attrList, emailAttribute);
+  };
+
+  const confirmSingUpSubmit = (values: ConfirmCode) => {
+    const userData = {
+      Username: username,
+      Pool: userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.confirmRegistration(
+      values.confirmCode.toString(),
+      true,
       (err, result) => {
         if (err) {
           console.log(err);
         } else {
           console.log(result);
+          navigate("/home");
         }
       }
     );
-    console.log("Login", attrList, emailAttribute);
   };
 
   return (
@@ -86,7 +116,9 @@ export default function Login({ step }: LoginProps) {
         >
           {step === "register" && <RegisterForm submit={singUpSubmit} />}
           {step === "passwordRecovery" && <RecoveryForm />}
-          {step === "confirmationCode" && <RegisterConfirmForm />}
+          {step === "confirmationCode" && (
+            <RegisterConfirmForm submit={confirmSingUpSubmit} />
+          )}
           {step === "login" && <LoginForm />}
         </Paper>
         <Paper
@@ -100,15 +132,14 @@ export default function Login({ step }: LoginProps) {
             my: 1,
           }}
         >
-          {step === "register" ||
-            (step === "confirmationCode" && (
-              <Typography variant="body2">
-                {t("login.already_registered")}{" "}
-                <Link component={NavLink} to="/">
-                  {t("login.log_in")}
-                </Link>
-              </Typography>
-            ))}
+          {(step === "register" || step === "confirmationCode") && (
+            <Typography variant="body2">
+              {t("login.already_registered")}{" "}
+              <Link component={NavLink} to="/">
+                {t("login.log_in")}
+              </Link>
+            </Typography>
+          )}
           {step === "passwordRecovery" && (
             <Typography variant="body2">
               {t("login.go_back_to")}{" "}

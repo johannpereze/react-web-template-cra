@@ -4,8 +4,15 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import TextField from "../../components/textField/TextField";
+import type { ConfirmCode } from "./Login";
 
-export default function RegisterConfirmForm() {
+interface RegisterConfirmFormProps {
+  submit: (values: ConfirmCode) => void;
+}
+
+export default function RegisterConfirmForm({
+  submit,
+}: RegisterConfirmFormProps) {
   const { t } = useTranslation();
   const validationSchema = yup.object({
     confirmCode: yup
@@ -21,11 +28,13 @@ export default function RegisterConfirmForm() {
     },
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      submit(values);
     },
     validateOnBlur: true,
     validateOnMount: true,
   });
+  console.log(formik.values);
+
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>
       <Alert sx={{ mt: 2 }} severity="info">
@@ -34,7 +43,7 @@ export default function RegisterConfirmForm() {
       <Box sx={{ mt: 2, mb: 0 }}>
         <TextField
           fullWidth
-          type="number"
+          type="text"
           formik={formik}
           name="confirmCode"
           label={t("login.confirmation_code")}
