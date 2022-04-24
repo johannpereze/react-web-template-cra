@@ -6,6 +6,7 @@ interface TextFieldProps {
   name: string;
   fullWidth?: boolean;
   label?: string | null;
+  type?: "text" | "number";
 }
 
 export default function TextField({
@@ -13,6 +14,7 @@ export default function TextField({
   name,
   fullWidth,
   label,
+  type,
 }: TextFieldProps) {
   return (
     <MuiTexField
@@ -24,6 +26,7 @@ export default function TextField({
       error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
       helperText={pick(name, formik.touched) && pick(name, formik.errors)}
       onBlur={() => formik.setFieldTouched(name, true)}
+      type={type}
     />
   );
 }
@@ -31,4 +34,5 @@ export default function TextField({
 TextField.defaultProps = {
   fullWidth: false,
   label: null,
+  type: "text",
 };

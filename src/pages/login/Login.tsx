@@ -7,6 +7,7 @@ import LanguageSelector from "../../components/languageSelector/LanguageSelector
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
 import RecoveryForm from "./RecoveryForm";
+import RegisterConfirmForm from "./RegisterConfirmForm";
 import RegisterForm from "./RegisterForm";
 
 interface LoginValues {
@@ -22,11 +23,10 @@ export interface SignInValues extends LoginValues {
   password2: string;
 }
 interface LoginProps {
-  register?: boolean;
-  passwordRecovery?: boolean;
+  step: "login" | "register" | "passwordRecovery" | "confirmationCode";
 }
 
-export default function Login({ register, passwordRecovery }: LoginProps) {
+export default function Login({ step }: LoginProps) {
   const { t } = useTranslation();
 
   const singUpSubmit = (values: SignInValues) => {
@@ -84,9 +84,10 @@ export default function Login({ register, passwordRecovery }: LoginProps) {
             my: 1,
           }}
         >
-          {register && <RegisterForm submit={singUpSubmit} />}
-          {passwordRecovery && <RecoveryForm />}
-          {!register && !passwordRecovery && <LoginForm />}
+          {step === "register" && <RegisterForm submit={singUpSubmit} />}
+          {step === "passwordRecovery" && <RecoveryForm />}
+          {step === "confirmationCode" && <RegisterConfirmForm />}
+          {step === "login" && <LoginForm />}
         </Paper>
         <Paper
           elevation={0}
@@ -99,15 +100,16 @@ export default function Login({ register, passwordRecovery }: LoginProps) {
             my: 1,
           }}
         >
-          {register && (
-            <Typography variant="body2">
-              {t("login.already_registered")}{" "}
-              <Link component={NavLink} to="/">
-                {t("login.log_in")}
-              </Link>
-            </Typography>
-          )}
-          {passwordRecovery && (
+          {step === "register" ||
+            (step === "confirmationCode" && (
+              <Typography variant="body2">
+                {t("login.already_registered")}{" "}
+                <Link component={NavLink} to="/">
+                  {t("login.log_in")}
+                </Link>
+              </Typography>
+            ))}
+          {step === "passwordRecovery" && (
             <Typography variant="body2">
               {t("login.go_back_to")}{" "}
               <Link component={NavLink} to="/">
@@ -115,7 +117,7 @@ export default function Login({ register, passwordRecovery }: LoginProps) {
               </Link>
             </Typography>
           )}
-          {!passwordRecovery && !register && (
+          {step === "login" && (
             <Typography variant="body2">
               {t("login.not_registered")}{" "}
               <Link component={NavLink} to="/register">
@@ -148,8 +150,3 @@ export default function Login({ register, passwordRecovery }: LoginProps) {
     </Grid>
   );
 }
-
-Login.defaultProps = {
-  register: false,
-  passwordRecovery: false,
-};
