@@ -8,6 +8,7 @@ const en = {
       dark_mode: "Dark mode",
       light_mode: "Light mode",
       terms_and_conditions: "Terms and conditions",
+      save: "Save",
     },
     errors: {
       enter_a_valid_email: "Enter a valid email",

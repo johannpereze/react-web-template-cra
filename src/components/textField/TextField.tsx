@@ -2,10 +2,11 @@ import { TextField as MuiTexField } from "@mui/material";
 import { pick } from "dot-object";
 
 interface TextFieldProps {
-  formik: any; // TODO: change any
+  formik: any;
   name: string;
   fullWidth?: boolean;
   label?: string | null;
+  value?: string;
   type?: "text" | "number";
 }
 
@@ -14,14 +15,18 @@ export default function TextField({
   name,
   fullWidth,
   label,
+  value,
   type,
 }: TextFieldProps) {
+  if (value === null) {
+    value = pick(name, formik.values);
+  }
   return (
     <MuiTexField
       fullWidth={fullWidth}
       name={name}
       label={label}
-      value={pick(name, formik.values)}
+      value={value}
       onChange={formik.handleChange}
       error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
       helperText={pick(name, formik.touched) && pick(name, formik.errors)}
@@ -35,4 +40,5 @@ TextField.defaultProps = {
   fullWidth: false,
   label: null,
   type: "text",
+  value: null,
 };
