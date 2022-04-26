@@ -13,10 +13,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
-import type { SignInValues } from "./Login";
+import type { SignUpValues } from "./Login";
 
 interface RegisterFormProps {
-  submit: (values: SignInValues) => void;
+  submit: (values: SignUpValues) => void;
 }
 
 export default function RegisterForm({ submit }: RegisterFormProps) {
@@ -38,7 +38,7 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
       .matches(
         /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
         t(
-          "errors.Username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers"
+          "errors.username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers"
         )
       )
       .required(t("errors.username_is_required")),
@@ -56,7 +56,7 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
       .required(t("errors.password_is_required")),
   });
 
-  const initialValues: SignInValues = {
+  const initialValues: SignUpValues = {
     username: "",
     email: "",
     password: "",

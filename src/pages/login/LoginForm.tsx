@@ -5,14 +5,16 @@ import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
+import type { LoginValues } from "./Login";
 
-export default function LoginForm() {
+interface LoginFormProps {
+  submit: (values: LoginValues) => void;
+}
+
+export default function LoginForm({ submit }: LoginFormProps) {
   const { t } = useTranslation();
   const validationSchema = yup.object({
-    email: yup
-      .string()
-      .email(t("errors.enter_a_valid_email"))
-      .required(t("errors.email_is_required")),
+    username: yup.string().required(t("errors.email_is_required")),
     password: yup
       .string()
       .min(8, t("errors.password_should_be_of_minimum_8_characters_length"))
@@ -21,12 +23,12 @@ export default function LoginForm() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      submit(values);
     },
     validateOnBlur: true,
     validateOnMount: true,
@@ -37,8 +39,8 @@ export default function LoginForm() {
         <TextField
           fullWidth
           formik={formik}
-          name="email"
-          label={t("login.email")}
+          name="username"
+          label={t("login.username")}
         />
       </Box>
       <Box sx={{ mt: 2, mb: 0 }}>

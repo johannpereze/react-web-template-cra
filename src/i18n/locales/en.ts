@@ -21,7 +21,7 @@ const en = {
       confirmation_code_should_be_a_6_digits_number:
         "Confirmation code should be a 6 digits number",
       confirmation_code_is_required: "Confirmation code is required",
-      Username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers:
+      username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers:
         "Username should be of 8-20 characters length, and only contain letters, numbers, underscore (_), period (.) and no spaces.",
       // last_name_should_be_of_minimum_3_characters_length:
       //   "Last name should be of minimum 3 characters length",
@@ -44,6 +44,7 @@ const en = {
       repeat_password: "Repeat password",
       name: "Name",
       last_name: "Last name",
+      username: "Username",
       user_name: "User Name",
       instructions_will_be_sent:
         "We will send to your inbox the instructions to reset your password",

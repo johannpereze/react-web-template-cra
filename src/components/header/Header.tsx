@@ -10,13 +10,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { KeyboardEvent, MouseEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
+import userPool from "../../Auth/cognito";
 import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -30,6 +33,11 @@ export default function Header() {
 
   const toggleDrawer = (event: KeyboardEvent | MouseEvent) => {
     toggleMenuDrawer({ event, dispatch });
+  };
+
+  const logout = () => {
+    userPool.getCurrentUser()?.signOut();
+    navigate("/");
   };
 
   const renderMenu = (
@@ -49,6 +57,7 @@ export default function Header() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={logout}>Sign Out</MenuItem>
     </Menu>
   );
 

@@ -1,5 +1,10 @@
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
-import { CognitoUser, CognitoUserAttribute } from "amazon-cognito-identity-js";
+import {
+  AuthenticationDetails,
+  CognitoUser,
+  CognitoUserAttribute,
+  CognitoUserSession,
+} from "amazon-cognito-identity-js";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -12,16 +17,15 @@ import RecoveryForm from "./RecoveryForm";
 import RegisterConfirmForm from "./RegisterConfirmForm";
 import RegisterForm from "./RegisterForm";
 
-interface LoginValues {
-  email: string;
+export interface LoginValues {
+  username: string;
   password: string;
 }
 
 interface userValues extends LoginValues {
-  username: string;
+  email: string;
 }
-export interface SignInValues extends LoginValues {
-  username: string;
+export interface SignUpValues extends userValues {
   password2: string;
 }
 
@@ -39,7 +43,7 @@ export default function Login({ step }: LoginProps) {
 
   const username = useAppSelector((state) => state.auth.username);
 
-  const singUpSubmit = (values: SignInValues) => {
+  const singUpSubmit = (values: userValues) => {
     const user: userValues = {
       username: values.username,
       email: values.email,
@@ -89,6 +93,28 @@ export default function Login({ step }: LoginProps) {
     );
   };
 
+  const singInSubmit = (values: LoginValues) => {
+    const authData = {
+      Username: values.username,
+      Password: values.password,
+    };
+    const authDetails = new AuthenticationDetails(authData);
+    const userData = {
+      Username: values.username,
+      Pool: userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.authenticateUser(authDetails, {
+      onSuccess(result: CognitoUserSession) {
+        console.log("Authenticated: ", result);
+        navigate("/home");
+      },
+      onFailure(err) {
+        console.log("Auth Failure: ", err);
+      },
+    });
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -119,7 +145,7 @@ export default function Login({ step }: LoginProps) {
           {step === "confirmationCode" && (
             <RegisterConfirmForm submit={confirmSingUpSubmit} />
           )}
-          {step === "login" && <LoginForm />}
+          {step === "login" && <LoginForm submit={singInSubmit} />}
         </Paper>
         <Paper
           elevation={0}
