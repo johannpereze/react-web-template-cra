@@ -9,10 +9,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { Auth } from "aws-amplify";
 import { KeyboardEvent, MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import userPool from "../../Auth/cognito";
 import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
 
@@ -35,9 +35,14 @@ export default function Header() {
     toggleMenuDrawer({ event, dispatch });
   };
 
-  const logout = () => {
-    userPool.getCurrentUser()?.signOut();
-    navigate("/");
+  const logout = async () => {
+    try {
+      await Auth.signOut();
+      console.log("Logged out");
+      navigate("/");
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
   };
 
   const renderMenu = (

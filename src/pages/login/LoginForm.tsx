@@ -5,16 +5,16 @@ import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
-import type { LoginValues } from "./Login";
+// import type { LoginValues } from "./Login";
 
-interface LoginFormProps {
-  submit: (values: LoginValues) => void;
-}
-
-export default function LoginForm({ submit }: LoginFormProps) {
+// interface LoginFormProps {
+//   submit: (values: LoginValues) => void;
+// }
+// TODO: any
+export default function LoginForm({ submit }: any) {
   const { t } = useTranslation();
   const validationSchema = yup.object({
-    username: yup.string().required(t("errors.email_is_required")),
+    email: yup.string().email().required(t("errors.email_is_required")),
     password: yup
       .string()
       .min(8, t("errors.password_should_be_of_minimum_8_characters_length"))
@@ -23,7 +23,7 @@ export default function LoginForm({ submit }: LoginFormProps) {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema,
@@ -33,14 +33,17 @@ export default function LoginForm({ submit }: LoginFormProps) {
     validateOnBlur: true,
     validateOnMount: true,
   });
+
+  console.log("Values: ", formik.values);
+
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>
       <Box sx={{ mt: 2, mb: 0 }}>
         <TextField
           fullWidth
           formik={formik}
-          name="username"
-          label={t("login.username")}
+          name="email"
+          label={t("login.email")}
         />
       </Box>
       <Box sx={{ mt: 2, mb: 0 }}>

@@ -1,8 +1,9 @@
-import { Alert, Box, Button, Link, Typography } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
+import { Auth } from "aws-amplify";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
 import * as yup from "yup";
+import { useAppSelector } from "../../app/hooks";
 import TextField from "../../components/textField/TextField";
 import type { ConfirmCode } from "./Login";
 
@@ -14,6 +15,9 @@ export default function RegisterConfirmForm({
   submit,
 }: RegisterConfirmFormProps) {
   const { t } = useTranslation();
+
+  const username = useAppSelector((state) => state.auth.username);
+
   const validationSchema = yup.object({
     confirmCode: yup
       .string()
@@ -34,6 +38,15 @@ export default function RegisterConfirmForm({
     validateOnMount: true,
   });
   console.log(formik.values);
+
+  const handleResendConfirmation = async () => {
+    try {
+      await Auth.resendSignUp(username);
+      console.log("code resent successfully");
+    } catch (err) {
+      console.log("error resending code: ", err);
+    }
+  };
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>
@@ -62,10 +75,10 @@ export default function RegisterConfirmForm({
         sx={{ display: "flex", justifyContent: "end", mt: 2, mb: 1 }}
         variant="body2"
       >
-        <Link component={NavLink} to="/">
-          {/* TODO: Implement */}
+        <Button onClick={handleResendConfirmation}>
+          {/* TODO: give better style and resend code after user lefts the page and the code expires */}
           {t("login.send_code_again")}
-        </Link>
+        </Button>
       </Typography>
     </Box>
   );

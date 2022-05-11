@@ -24,29 +24,21 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const validationSchema = yup.object({
-    username: yup
+    given_name: yup
       .string()
-      /*
-       * ^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$
-       * └─────┬────┘└───┬──┘└─────┬─────┘└─────┬─────┘ └───┬───┘
-       * │         │         │            │           no _ or . at the end
-       * │         │         │            allowed characters
-       * │         │         no __ or _. or ._ or .. inside
-       * │         no _ or . at the beginning
-       * username is 8-20 characters long
-       */
-      .matches(
-        /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
-        t(
-          "errors.username_should_be_of_8_20_characters_length_and_only_contain_letters_numbers"
-        )
-      )
-      .required(t("errors.username_is_required")),
+      .min(3, t("error.TODO"))
+      .max(30, t("error.TODO"))
+      .required(),
+    family_name: yup
+      .string()
+      .min(3, t("error.TODO"))
+      .max(30, t("error.TODO"))
+      .required(),
     email: yup
       .string()
       .email(t("errors.enter_a_valid_email"))
       .required(t("errors.email_is_required")),
-    password: yup
+    password: yup // TODO: use the regex for symbols and all
       .string()
       .min(8, t("errors.password_should_be_of_minimum_8_characters_length"))
       .required(t("errors.password_is_required")),
@@ -57,7 +49,8 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
   });
 
   const initialValues: SignUpValues = {
-    username: "",
+    given_name: "",
+    family_name: "",
     email: "",
     password: "",
     password2: "",
@@ -84,8 +77,16 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
         <TextField
           fullWidth
           formik={formik}
-          name="username"
-          label={t("login.user_name")}
+          name="given_name"
+          label={t("login.first_name")}
+        />
+      </Box>
+      <Box sx={{ mt: 2, mb: 0 }}>
+        <TextField
+          fullWidth
+          formik={formik}
+          name="family_name"
+          label={t("login.last_name")}
         />
       </Box>
       <Box sx={{ mt: 2, mb: 0 }}>

@@ -21,6 +21,7 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "amazon-cognito-identity-js": "^5.2.8",
+    "aws-amplify": "^4.3.21",
     "dot-object": "^2.1.4",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",

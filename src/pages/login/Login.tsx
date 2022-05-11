@@ -1,15 +1,9 @@
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
-import {
-  AuthenticationDetails,
-  CognitoUser,
-  CognitoUserAttribute,
-  CognitoUserSession,
-} from "amazon-cognito-identity-js";
+import { Auth } from "aws-amplify";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateUserName } from "../../Auth/authSlice";
-import userPool, { CognitoSignUpResponse } from "../../Auth/cognito";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
@@ -18,14 +12,15 @@ import RegisterConfirmForm from "./RegisterConfirmForm";
 import RegisterForm from "./RegisterForm";
 
 export interface LoginValues {
-  username: string;
+  email: string;
   password: string;
 }
 
-interface userValues extends LoginValues {
-  email: string;
+interface userAttributes extends LoginValues {
+  given_name: string;
+  family_name: string;
 }
-export interface SignUpValues extends userValues {
+export interface SignUpValues extends userAttributes {
   password2: string;
 }
 
@@ -43,76 +38,46 @@ export default function Login({ step }: LoginProps) {
 
   const username = useAppSelector((state) => state.auth.username);
 
-  const singUpSubmit = (values: userValues) => {
-    const user: userValues = {
-      username: values.username,
-      email: values.email,
-      password: values.password,
-    };
-    const attrList: CognitoUserAttribute[] = [];
-    const emailAttribute = {
-      Name: "email",
-      Value: values.email,
-    };
-    attrList.push(new CognitoUserAttribute(emailAttribute));
-    userPool.signUp(
-      user.username,
-      user.password,
-      attrList,
-      // @ts-ignore
-      null,
-      (err, result: CognitoSignUpResponse) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(result);
-          dispatch(updateUserName(result.user.username));
-        }
-      }
-    );
-    console.log("Login", attrList, emailAttribute);
+  const singUpSubmit = async ({
+    email,
+    password,
+    given_name,
+    family_name,
+  }: userAttributes) => {
+    try {
+      const { user } = await Auth.signUp({
+        username: email,
+        password,
+        attributes: {
+          given_name,
+          family_name,
+        },
+      });
+      console.log("user.getUsername()", user.getUsername());
+      dispatch(updateUserName(user.getUsername()));
+    } catch (error) {
+      console.log("error signing up:", error);
+    }
   };
 
-  const confirmSingUpSubmit = (values: ConfirmCode) => {
-    const userData = {
-      Username: username,
-      Pool: userPool,
-    };
-    const cognitoUser = new CognitoUser(userData);
-    cognitoUser.confirmRegistration(
-      values.confirmCode.toString(),
-      true,
-      (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(result);
-          navigate("/home");
-        }
-      }
-    );
+  const confirmSingUpSubmit = async ({ confirmCode }: ConfirmCode) => {
+    try {
+      await Auth.confirmSignUp(username, confirmCode);
+      navigate("/");
+    } catch (error) {
+      console.log("error confirming sign up", error);
+    }
   };
 
-  const singInSubmit = (values: LoginValues) => {
-    const authData = {
-      Username: values.username,
-      Password: values.password,
-    };
-    const authDetails = new AuthenticationDetails(authData);
-    const userData = {
-      Username: values.username,
-      Pool: userPool,
-    };
-    const cognitoUser = new CognitoUser(userData);
-    cognitoUser.authenticateUser(authDetails, {
-      onSuccess(result: CognitoUserSession) {
-        console.log("Authenticated: ", result);
-        navigate("/home");
-      },
-      onFailure(err) {
-        console.log("Auth Failure: ", err);
-      },
-    });
+  const singInSubmit = async ({ email, password }: LoginValues) => {
+    try {
+      const user = await Auth.signIn(email, password);
+      console.log(user);
+      navigate("/home");
+      dispatch(updateUserName(user.username));
+    } catch (error) {
+      console.log("error signing in", error);
+    }
   };
 
   return (
