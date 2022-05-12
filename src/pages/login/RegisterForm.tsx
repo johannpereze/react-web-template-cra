@@ -26,26 +26,39 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
   const validationSchema = yup.object({
     given_name: yup
       .string()
-      .min(3, t("error.TODO"))
-      .max(30, t("error.TODO"))
-      .required(),
+      .min(3, t("error.first_name_should_be_of_minimum_3_characters_long"))
+      .max(20, t("error.first_name_should_be_of_maximum_20_characters_long"))
+      .matches(
+        /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u
+      )
+      .required(t("errors.login.first_name_is_required")),
     family_name: yup
       .string()
-      .min(3, t("error.TODO"))
-      .max(30, t("error.TODO"))
+      .min(3, t("error.last_name_should_be_of_minimum_3_characters_long"))
+      .max(20, t("error.last_name_should_be_of_maximum_20_characters_long"))
+      .matches(
+        /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u
+      )
       .required(),
     email: yup
       .string()
-      .email(t("errors.enter_a_valid_email"))
-      .required(t("errors.email_is_required")),
-    password: yup // TODO: use the regex for symbols and all
+      .email(t("errors.login.enter_a_valid_email"))
+      .required(t("errors.login.email_is_required")),
+    password: yup
       .string()
-      .min(8, t("errors.password_should_be_of_minimum_8_characters_length"))
-      .required(t("errors.password_is_required")),
+      .min(8, t("errors.login.password_should_be_of_minimum_8_characters_long"))
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\^$*.[\]{}()?\-"!@#%&/,><':;|_~`])\S{8,99}$/,
+        t("errors.login.please_make_sure_your_passwor_validation_schema")
+      )
+      .required(t("errors.login.password_is_required")),
     password2: yup
       .string()
-      .oneOf([yup.ref("password")], t("errors.your_passwords_do_not_match"))
-      .required(t("errors.password_is_required")),
+      .oneOf(
+        [yup.ref("password")],
+        t("errors.login.your_passwords_do_not_match")
+      )
+      .required(t("errors.login.password_is_required")),
   });
 
   const initialValues: SignUpValues = {

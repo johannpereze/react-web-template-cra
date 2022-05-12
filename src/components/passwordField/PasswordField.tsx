@@ -8,10 +8,11 @@ import {
   OutlinedInput as MuiOutlinedInput,
 } from "@mui/material";
 import { pick } from "dot-object";
+import { FormikProps } from "formik";
 import { MouseEvent, useState } from "react";
 
 interface TextFieldProps {
-  formik: any; // TODO: change any
+  formik: FormikProps<any>;
   name: string;
   fullWidth?: boolean;
   label?: string | null;
@@ -37,7 +38,6 @@ export default function PasswordField({
 
   return (
     <FormControl variant="outlined">
-      {/* TODO: Error prop missing for inputlabel */}
       <InputLabel
         error={pick(name, formik.touched) && Boolean(pick(name, formik.errors))}
         htmlFor={name}

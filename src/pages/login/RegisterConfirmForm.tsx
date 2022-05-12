@@ -21,9 +21,9 @@ export default function RegisterConfirmForm({
   const validationSchema = yup.object({
     confirmCode: yup
       .string()
-      .min(6, t("errors.confirmation_code_should_be_a_6_digits_number"))
-      .max(6, t("errors.confirmation_code_should_be_a_6_digits_number"))
-      .required(t("errors.confirmation_code_is_required")),
+      .min(6, t("errors.login.confirmation_code_should_be_a_6_digits_number"))
+      .max(6, t("errors.login.confirmation_code_should_be_a_6_digits_number"))
+      .required(t("errors.login.confirmation_code_is_required")),
   });
 
   const formik = useFormik({

@@ -12,7 +12,7 @@ const es = {
     errors: {
       enter_a_valid_email: "Ingresa un email válido",
       email_is_required: "El email es obligatorio",
-      password_should_be_of_minimum_8_characters_length:
+      password_should_be_of_minimum_8_characters_long:
         "La contraseña debe tener al menos 8 caracteres",
       password_is_required: "La contraseña es obligatoria",
       name_is_required: "El nombre es obligatorio",

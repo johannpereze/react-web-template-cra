@@ -11,8 +11,8 @@ export default function RecoveryForm() {
   const validationSchema = yup.object({
     email: yup
       .string()
-      .email(t("errors.enter_a_valid_email"))
-      .required(t("errors.email_is_required")),
+      .email(t("errors.login.enter_a_valid_email"))
+      .required(t("errors.login.email_is_required")),
   });
 
   const formik = useFormik({
