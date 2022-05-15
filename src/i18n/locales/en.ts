@@ -44,6 +44,7 @@ const en = {
       create_account: "Create Account",
       create_an_account: "Create an account.",
       email: "Email",
+      first_name: "First name",
       forgot_password: "Forgot password?",
       go_back_to: "Go back to",
       i_accept: "I accept",

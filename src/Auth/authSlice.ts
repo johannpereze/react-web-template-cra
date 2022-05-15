@@ -1,23 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  username: string;
+  userId: string;
+  email: string;
+  family_name: string;
+  given_name: string;
 }
 
 const initialState: AuthState = {
-  username: "",
+  userId: "",
+  email: "",
+  family_name: "",
+  given_name: "",
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateUserName: (state, action: PayloadAction<string>) => {
-      state.username = action.payload;
+    updateUser: (state, action: PayloadAction<AuthState>) => {
+      state.userId = action.payload.userId;
+      state.email = action.payload.email;
+      state.family_name = action.payload.family_name;
+      state.given_name = action.payload.given_name;
+    },
+    deleteUser: (state) => {
+      state.userId = "";
+      state.email = "";
+      state.family_name = "";
+      state.given_name = "";
     },
   },
 });
 
-export const { updateUserName } = authSlice.actions;
+export const { updateUser, deleteUser } = authSlice.actions;
 
 export default authSlice.reducer;

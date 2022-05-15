@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateUserName } from "../../Auth/authSlice";
+import { updateUser } from "../../Auth/authSlice";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
@@ -16,11 +16,11 @@ export interface LoginValues {
   password: string;
 }
 
-interface userAttributes extends LoginValues {
+interface UserAttributes extends LoginValues {
   given_name: string;
   family_name: string;
 }
-export interface SignUpValues extends userAttributes {
+export interface SignUpValues extends UserAttributes {
   password2: string;
 }
 
@@ -36,14 +36,17 @@ export default function Login({ step }: LoginProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const username = useAppSelector((state) => state.auth.username);
+  const username = useAppSelector((state) => state.auth.userId);
+
+  // TODO: handle error with incorrect user/password
+  // TODO: if the account is not confirmed, resend email
 
   const singUpSubmit = async ({
     email,
     password,
     given_name,
     family_name,
-  }: userAttributes) => {
+  }: UserAttributes) => {
     try {
       const { user } = await Auth.signUp({
         username: email,
@@ -54,7 +57,16 @@ export default function Login({ step }: LoginProps) {
         },
       });
       console.log("user.getUsername()", user.getUsername());
-      dispatch(updateUserName(user.getUsername()));
+      const userAttributes = user.getUserData((err, data) => data);
+      console.log("userAttributes", userAttributes);
+      dispatch(
+        updateUser({
+          userId: user.getUsername(),
+          email: "",
+          family_name: "",
+          given_name: "",
+        })
+      );
     } catch (error) {
       console.log("error signing up:", error);
     }
@@ -72,9 +84,23 @@ export default function Login({ step }: LoginProps) {
   const singInSubmit = async ({ email, password }: LoginValues) => {
     try {
       const user = await Auth.signIn(email, password);
-      console.log(user);
+      console.log(user.attributes);
+      const {
+        email: _email,
+        family_name: _family_name,
+        given_name: _given_name,
+        sub,
+      } = user.attributes;
+      console.log(_email, _family_name, _given_name, sub);
+      dispatch(
+        updateUser({
+          userId: sub,
+          email: _email,
+          family_name: _family_name,
+          given_name: _given_name,
+        })
+      );
       navigate("/home");
-      dispatch(updateUserName(user.username));
     } catch (error) {
       console.log("error signing in", error);
     }

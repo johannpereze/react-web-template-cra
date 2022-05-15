@@ -16,7 +16,7 @@ export default function RegisterConfirmForm({
 }: RegisterConfirmFormProps) {
   const { t } = useTranslation();
 
-  const username = useAppSelector((state) => state.auth.username);
+  const username = useAppSelector((state) => state.auth.userId);
 
   const validationSchema = yup.object({
     confirmCode: yup

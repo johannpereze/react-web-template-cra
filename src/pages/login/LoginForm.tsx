@@ -22,7 +22,7 @@ export default function LoginForm({ submit }: LoginFormProps) {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: "sebas.jsp@gmail.com", // TODO: remove mail
       password: "",
     },
     validationSchema,
@@ -32,8 +32,6 @@ export default function LoginForm({ submit }: LoginFormProps) {
     validateOnBlur: true,
     validateOnMount: true,
   });
-
-  console.log("Values: ", formik.values);
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>

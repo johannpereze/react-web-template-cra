@@ -13,6 +13,7 @@ import { Auth } from "aws-amplify";
 import { KeyboardEvent, MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
+import { deleteUser } from "../../Auth/authSlice";
 import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
 
@@ -39,6 +40,7 @@ export default function Header() {
     try {
       await Auth.signOut();
       console.log("Logged out");
+      dispatch(deleteUser());
       navigate("/");
     } catch (error) {
       console.log("error signing out: ", error);
