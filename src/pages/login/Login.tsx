@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateUserName } from "../../Auth/authSlice";
+import { updateUserId } from "../../Auth/authSlice";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
@@ -36,7 +36,10 @@ export default function Login({ step }: LoginProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const username = useAppSelector((state) => state.auth.username);
+  const username = useAppSelector((state) => state.auth.userId);
+
+  // TODO: handle error with incorrect user/password
+  // TODO: if the account is not confirmed, resend email
 
   const singUpSubmit = async ({
     email,
@@ -54,7 +57,7 @@ export default function Login({ step }: LoginProps) {
         },
       });
       console.log("user.getUsername()", user.getUsername());
-      dispatch(updateUserName(user.getUsername()));
+      dispatch(updateUserId(user.getUsername()));
     } catch (error) {
       console.log("error signing up:", error);
     }
@@ -74,7 +77,7 @@ export default function Login({ step }: LoginProps) {
       const user = await Auth.signIn(email, password);
       console.log(user);
       navigate("/home");
-      dispatch(updateUserName(user.username));
+      dispatch(updateUserId(user.username));
     } catch (error) {
       console.log("error signing in", error);
     }
