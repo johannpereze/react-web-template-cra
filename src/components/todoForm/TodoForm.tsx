@@ -17,7 +17,7 @@ export default function TodoForm() {
   return (
     <Container>
       {todos.map((todo) => (
-        <TextField value={todo} />
+        <TextField key={todo} value={todo} />
       ))}
       <Button type="button" onClick={handleSave}>
         {t("general.save")}
