@@ -100,7 +100,7 @@ export default function Login({ step }: LoginProps) {
           given_name: _given_name,
         })
       );
-      navigate("/home");
+      navigate("/", { replace: true });
     } catch (error) {
       console.log("error signing in", error);
     }
@@ -168,7 +168,7 @@ export default function Login({ step }: LoginProps) {
           {step === "login" && (
             <Typography variant="body2">
               {t("login.not_registered")}{" "}
-              <Link component={NavLink} to="/register">
+              <Link component={NavLink} to="register">
                 {t("login.create_an_account")}
               </Link>
             </Typography>
