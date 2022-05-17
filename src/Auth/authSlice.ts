@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
-  userId: string;
+  user_id: string;
   email: string;
   family_name: string;
   given_name: string;
 }
 
 const initialState: AuthState = {
-  userId: "",
+  user_id: "",
   email: "",
   family_name: "",
   given_name: "",
@@ -19,13 +19,13 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action: PayloadAction<AuthState>) => {
-      state.userId = action.payload.userId;
+      state.user_id = action.payload.user_id;
       state.email = action.payload.email;
       state.family_name = action.payload.family_name;
       state.given_name = action.payload.given_name;
     },
     deleteUser: (state) => {
-      state.userId = "";
+      state.user_id = "";
       state.email = "";
       state.family_name = "";
       state.given_name = "";

@@ -26,7 +26,7 @@ export default function AppRouter() {
       } = user.attributes;
       dispatch(
         updateUser({
-          userId: sub,
+          user_id: sub,
           email: _email,
           family_name: _family_name,
           given_name: _given_name,

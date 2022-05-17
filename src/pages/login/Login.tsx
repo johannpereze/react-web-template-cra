@@ -36,7 +36,7 @@ export default function Login({ step }: LoginProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const username = useAppSelector((state) => state.auth.userId);
+  const username = useAppSelector((state) => state.auth.user_id);
 
   // TODO: handle error with incorrect user/password
   // TODO: if the account is not confirmed, resend email
@@ -61,7 +61,7 @@ export default function Login({ step }: LoginProps) {
       console.log("userAttributes", userAttributes);
       dispatch(
         updateUser({
-          userId: user.getUsername(),
+          user_id: user.getUsername(),
           email: "",
           family_name: "",
           given_name: "",
@@ -94,7 +94,7 @@ export default function Login({ step }: LoginProps) {
       console.log(_email, _family_name, _given_name, sub);
       dispatch(
         updateUser({
-          userId: sub,
+          user_id: sub,
           email: _email,
           family_name: _family_name,
           given_name: _given_name,
