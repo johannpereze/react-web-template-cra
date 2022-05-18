@@ -13,7 +13,7 @@ import { Auth } from "aws-amplify";
 import { KeyboardEvent, MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import { deleteUser } from "../../Auth/authSlice";
+import { deleteUser } from "../../auth/authSlice";
 import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
 

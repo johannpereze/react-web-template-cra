@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateUser } from "../../Auth/authSlice";
+import { updateUser } from "../../auth/authSlice";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";

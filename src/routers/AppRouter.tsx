@@ -2,7 +2,7 @@ import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
-import { updateUser } from "../Auth/authSlice";
+import { updateUser } from "../auth/authSlice";
 import Backdrop from "../components/backdrop/Backdrop";
 import AuthRouter from "./AuthRouter";
 import DashboardRouter from "./DashboardRouter";

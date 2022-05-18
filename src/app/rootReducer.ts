@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import authReducer from "../Auth/authSlice";
+import authReducer from "../auth/authSlice";
 // Change Slice to Reducer because the export ir fooSlice.reducer
 import counterReducer from "../components/counter/counterSlice";
 import headerReducer from "../components/header/headerSlice";
