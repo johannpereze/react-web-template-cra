@@ -1,9 +1,10 @@
 import { KeyboardEvent, MouseEvent } from "react";
+import { AppDispatch } from "../app/store";
 import { toggleDrawerState } from "../components/header/headerSlice";
 
 interface ToggleDrawerProps {
   event: KeyboardEvent | MouseEvent;
-  dispatch: any; // TODO: Research how to type this
+  dispatch: AppDispatch;
 }
 
 const toggleMenuDrawer = ({ event, dispatch }: ToggleDrawerProps) => {

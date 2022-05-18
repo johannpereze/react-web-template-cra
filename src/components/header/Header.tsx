@@ -9,11 +9,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Auth } from "aws-amplify";
 import { KeyboardEvent, MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import { deleteUser } from "../../auth/authSlice";
+import logout from "../../auth/logout";
 import toggleMenuDrawer from "../../helpers/toggleMenuDrawer";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
 
@@ -36,16 +35,7 @@ export default function Header() {
     toggleMenuDrawer({ event, dispatch });
   };
 
-  const logout = async () => {
-    try {
-      await Auth.signOut();
-      console.log("Logged out");
-      dispatch(deleteUser());
-      navigate("/");
-    } catch (error) {
-      console.log("error signing out: ", error);
-    }
-  };
+  const handleLogout = () => logout(dispatch, navigate);
 
   const renderMenu = (
     <Menu
@@ -64,7 +54,7 @@ export default function Header() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={logout}>Sign Out</MenuItem>
+      <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
     </Menu>
   );
 
