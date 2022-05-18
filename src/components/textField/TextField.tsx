@@ -1,8 +1,9 @@
 import { TextField as MuiTexField } from "@mui/material";
 import { pick } from "dot-object";
+import { FormikProps } from "formik";
 
 interface TextFieldProps {
-  formik: any;
+  formik: FormikProps<any>;
   name: string;
   fullWidth?: boolean;
   label?: string | null;

@@ -3,7 +3,7 @@ import { toggleDrawerState } from "../components/header/headerSlice";
 
 interface ToggleDrawerProps {
   event: KeyboardEvent | MouseEvent;
-  dispatch: any;
+  dispatch: any; // TODO: Research how to type this
 }
 
 const toggleMenuDrawer = ({ event, dispatch }: ToggleDrawerProps) => {
