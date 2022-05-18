@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { useAppSelector } from "../../app/hooks";
+import type { ConfirmCode } from "../../auth/confirmSignUp";
 import TextField from "../../components/textField/TextField";
-import type { ConfirmCode } from "./Login";
 
 interface RegisterConfirmFormProps {
   submit: (values: ConfirmCode) => void;

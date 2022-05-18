@@ -11,9 +11,13 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { UserAttributes } from "../../auth/signUp";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
-import type { SignUpValues } from "./Login";
+
+interface SignUpValues extends UserAttributes {
+  password2: string;
+}
 
 interface RegisterFormProps {
   submit: (values: SignUpValues) => void;

@@ -3,12 +3,12 @@ import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
+import { LoginValues } from "../../auth/signIn";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
-import type { LoginValues } from "./Login";
 
 interface LoginFormProps {
-  submit: ({ email, password }: LoginValues) => Promise<void>;
+  submit: ({ email, password }: LoginValues) => void;
 }
 export default function LoginForm({ submit }: LoginFormProps) {
   const { t } = useTranslation();

@@ -1,9 +1,10 @@
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
-import { Auth } from "aws-amplify";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateUser } from "../../auth/authSlice";
+import confirmSignUp, { ConfirmCode } from "../../auth/confirmSignUp";
+import signIn, { LoginValues } from "../../auth/signIn";
+import signUp, { UserAttributes } from "../../auth/signUp";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import LoginForm from "./LoginForm";
@@ -11,22 +12,6 @@ import RecoveryForm from "./RecoveryForm";
 import RegisterConfirmForm from "./RegisterConfirmForm";
 import RegisterForm from "./RegisterForm";
 
-export interface LoginValues {
-  email: string;
-  password: string;
-}
-
-interface UserAttributes extends LoginValues {
-  given_name: string;
-  family_name: string;
-}
-export interface SignUpValues extends UserAttributes {
-  password2: string;
-}
-
-export interface ConfirmCode {
-  confirmCode: string;
-}
 interface LoginProps {
   step: "login" | "register" | "passwordRecovery" | "confirmationCode";
 }
@@ -41,69 +26,29 @@ export default function Login({ step }: LoginProps) {
   // TODO: handle error with incorrect user/password
   // TODO: if the account is not confirmed, resend email
 
-  const singUpSubmit = async ({
+  const signUpSubmit = async ({
     email,
     password,
     given_name,
     family_name,
   }: UserAttributes) => {
-    try {
-      const { user } = await Auth.signUp({
-        username: email,
+    signUp(
+      {
+        email,
         password,
-        attributes: {
-          given_name,
-          family_name,
-        },
-      });
-      console.log("user.getUsername()", user.getUsername());
-      const userAttributes = user.getUserData((err, data) => data);
-      console.log("userAttributes", userAttributes);
-      dispatch(
-        updateUser({
-          user_id: user.getUsername(),
-          email: "",
-          family_name: "",
-          given_name: "",
-        })
-      );
-    } catch (error) {
-      console.log("error signing up:", error);
-    }
+        given_name,
+        family_name,
+      },
+      dispatch
+    );
   };
 
-  const confirmSingUpSubmit = async ({ confirmCode }: ConfirmCode) => {
-    try {
-      await Auth.confirmSignUp(username, confirmCode);
-      navigate("/");
-    } catch (error) {
-      console.log("error confirming sign up", error);
-    }
+  const confirmSignUpSubmit = async ({ confirmCode }: ConfirmCode) => {
+    confirmSignUp({ confirmCode }, username, navigate);
   };
 
-  const singInSubmit = async ({ email, password }: LoginValues) => {
-    try {
-      const user = await Auth.signIn(email, password);
-      console.log(user.attributes);
-      const {
-        email: _email,
-        family_name: _family_name,
-        given_name: _given_name,
-        sub,
-      } = user.attributes;
-      console.log(_email, _family_name, _given_name, sub);
-      dispatch(
-        updateUser({
-          user_id: sub,
-          email: _email,
-          family_name: _family_name,
-          given_name: _given_name,
-        })
-      );
-      navigate("/", { replace: true });
-    } catch (error) {
-      console.log("error signing in", error);
-    }
+  const signInSubmit = ({ email, password }: LoginValues) => {
+    signIn({ email, password }, dispatch, navigate);
   };
 
   return (
@@ -131,12 +76,12 @@ export default function Login({ step }: LoginProps) {
             my: 1,
           }}
         >
-          {step === "register" && <RegisterForm submit={singUpSubmit} />}
+          {step === "register" && <RegisterForm submit={signUpSubmit} />}
           {step === "passwordRecovery" && <RecoveryForm />}
           {step === "confirmationCode" && (
-            <RegisterConfirmForm submit={confirmSingUpSubmit} />
+            <RegisterConfirmForm submit={confirmSignUpSubmit} />
           )}
-          {step === "login" && <LoginForm submit={singInSubmit} />}
+          {step === "login" && <LoginForm submit={signInSubmit} />}
         </Paper>
         <Paper
           elevation={0}
