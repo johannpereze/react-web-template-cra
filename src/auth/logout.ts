@@ -8,7 +8,7 @@ const logout = async (dispatch: AppDispatch, navigate: NavigateFunction) => {
     await Auth.signOut();
     console.log("Logged out");
     dispatch(deleteUser());
-    navigate("/");
+    navigate("/login");
   } catch (error) {
     console.log("error signing out: ", error);
   }

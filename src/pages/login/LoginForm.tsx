@@ -64,7 +64,7 @@ export default function LoginForm({ submit }: LoginFormProps) {
         sx={{ display: "flex", justifyContent: "end", mt: 2, mb: 1 }}
         variant="body2"
       >
-        <Link component={NavLink} to="/password-recovery">
+        <Link component={NavLink} to="/login/password-recovery">
           {t("login.forgot_password")}
         </Link>
       </Typography>

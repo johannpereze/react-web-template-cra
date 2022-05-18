@@ -9,7 +9,9 @@ export default function DashboardRouter() {
     <>
       <Header />
       <Routes>
+        {/* TODO: not a real route */}
         <Route path="counter" element={<Counter />} />
+        {/* TODO: not a real route */}
         <Route path="settings" element={<ThemeSelector />} />
         <Route path="/" element={<Home />} />
       </Routes>
