@@ -1,5 +1,8 @@
 import { Auth } from "aws-amplify";
+import { TFunction } from "react-i18next";
+import { NavigateFunction } from "react-router-dom";
 import { AppDispatch } from "../app/store";
+import errorHandler, { EnqueueSnackbar } from "../hooks/errorHandler";
 import { updateUser } from "./authSlice";
 import { LoginValues } from "./signIn";
 
@@ -10,7 +13,10 @@ export interface UserAttributes extends LoginValues {
 
 const signUp = async (
   { email, password, given_name, family_name }: UserAttributes,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  navigate: NavigateFunction,
+  enqueueSnackbar: EnqueueSnackbar,
+  t: TFunction<"translation", undefined>
 ) => {
   try {
     const { user } = await Auth.signUp({
@@ -21,19 +27,17 @@ const signUp = async (
         family_name,
       },
     });
-    console.log("user.getUsername()", user.getUsername());
-    const userAttributes = user.getUserData((err, data) => data);
-    console.log("userAttributes", userAttributes);
     dispatch(
       updateUser({
-        user_id: user.getUsername(),
-        email: "",
+        user_id: "",
+        email: user.getUsername(),
         family_name: "",
         given_name: "",
       })
     );
+    navigate("/login/confirmation-code");
   } catch (error) {
-    console.log("error signing up:", error);
+    errorHandler(error, enqueueSnackbar, t);
   }
 };
 

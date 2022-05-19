@@ -1,10 +1,11 @@
 import { Alert, Box, Button, Typography } from "@mui/material";
-import { Auth } from "aws-amplify";
 import { useFormik } from "formik";
+import { useSnackbar } from "notistack";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { useAppSelector } from "../../app/hooks";
 import type { ConfirmCode } from "../../auth/confirmSignUp";
+import resendAuthConfirmation from "../../auth/resendAuthConfirmation";
 import TextField from "../../components/textField/TextField";
 
 interface RegisterConfirmFormProps {
@@ -15,6 +16,7 @@ export default function RegisterConfirmForm({
   submit,
 }: RegisterConfirmFormProps) {
   const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const username = useAppSelector((state) => state.auth.user_id);
 
@@ -37,15 +39,9 @@ export default function RegisterConfirmForm({
     validateOnBlur: true,
     validateOnMount: true,
   });
-  console.log(formik.values);
 
   const handleResendConfirmation = async () => {
-    try {
-      await Auth.resendSignUp(username);
-      console.log("code resent successfully");
-    } catch (err) {
-      console.log("error resending code: ", err);
-    }
+    resendAuthConfirmation(username, enqueueSnackbar, t);
   };
 
   return (

@@ -9,7 +9,9 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { useSnackbar } from "notistack";
 import { KeyboardEvent, MouseEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import logout from "../../auth/logout";
@@ -20,6 +22,8 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -35,7 +39,7 @@ export default function Header() {
     toggleMenuDrawer({ event, dispatch });
   };
 
-  const handleLogout = () => logout(dispatch, navigate);
+  const handleLogout = () => logout(dispatch, navigate, enqueueSnackbar, t);
 
   const renderMenu = (
     <Menu

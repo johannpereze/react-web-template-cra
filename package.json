@@ -34,6 +34,7 @@
     "gh-pages": "^3.2.3",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.4",
+    "notistack": "^2.0.5",
     "prettier": "^2.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

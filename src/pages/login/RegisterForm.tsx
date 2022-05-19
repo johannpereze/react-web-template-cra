@@ -9,7 +9,7 @@ import {
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { UserAttributes } from "../../auth/signUp";
 import PasswordField from "../../components/passwordField/PasswordField";
@@ -26,7 +26,6 @@ interface RegisterFormProps {
 export default function RegisterForm({ submit }: RegisterFormProps) {
   const [termsChecked, setTermsChecked] = useState(false);
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const validationSchema = yup.object({
     given_name: yup
       .string()
@@ -78,7 +77,6 @@ export default function RegisterForm({ submit }: RegisterFormProps) {
     validationSchema,
     onSubmit: (values) => {
       submit(values);
-      navigate("/confirmation-code");
     },
     validateOnBlur: true,
     validateOnMount: true,
