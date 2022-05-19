@@ -1,4 +1,5 @@
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -20,8 +21,9 @@ export default function Login({ step }: LoginProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const username = useAppSelector((state) => state.auth.user_id);
+  const userEmail = useAppSelector((state) => state.auth.email);
 
   // TODO: handle error with incorrect user/password
   // TODO: if the account is not confirmed, resend email
@@ -39,16 +41,19 @@ export default function Login({ step }: LoginProps) {
         given_name,
         family_name,
       },
-      dispatch
+      dispatch,
+      navigate,
+      enqueueSnackbar,
+      t
     );
   };
 
   const confirmSignUpSubmit = async ({ confirmCode }: ConfirmCode) => {
-    confirmSignUp({ confirmCode }, username, navigate);
+    confirmSignUp({ confirmCode }, userEmail, navigate, enqueueSnackbar, t);
   };
 
   const signInSubmit = ({ email, password }: LoginValues) => {
-    signIn({ email, password }, dispatch, navigate);
+    signIn({ email, password }, dispatch, navigate, enqueueSnackbar, t);
   };
 
   return (

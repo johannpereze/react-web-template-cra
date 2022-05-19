@@ -39,6 +39,8 @@ const en = {
     },
     login: {
       already_registered: "Already registered?",
+      an_account_with_the_given_email_already_exists:
+        "An account with the given email already exists.",
       confirm_email: "Confirm email",
       confirmation_code: "Confirmation Code",
       create_account: "Create Account",
@@ -48,6 +50,7 @@ const en = {
       forgot_password: "Forgot password?",
       go_back_to: "Go back to",
       i_accept: "I accept",
+      incorrect_username_or_password: "Incorrect username or password",
       instructions_will_be_sent:
         "We will send to your inbox the instructions to reset your password",
       last_name: "Last name",
