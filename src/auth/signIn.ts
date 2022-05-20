@@ -3,7 +3,7 @@ import { TFunction } from "react-i18next";
 import { NavigateFunction } from "react-router-dom";
 import { AppDispatch } from "../app/store";
 import errorHandler, { EnqueueSnackbar } from "../hooks/errorHandler";
-import { updateUser } from "./authSlice";
+import { setUser } from "./authSlice";
 
 export interface LoginValues {
   email: string;
@@ -30,7 +30,7 @@ const signIn = async (
       sub,
     } = user.attributes;
     dispatch(
-      updateUser({
+      setUser({
         user_id: sub,
         email: _email,
         family_name: _family_name,
@@ -42,7 +42,7 @@ const signIn = async (
   } catch (error: any) {
     if (error.message === "User is not confirmed.") {
       dispatch(
-        updateUser({
+        setUser({
           user_id: "",
           email,
           family_name: "",

@@ -1,4 +1,4 @@
-import { Box, Grid, Link, Paper, Typography } from "@mui/material";
+import { Alert, Box, Grid, Link, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -24,8 +24,7 @@ export default function Login({ step }: LoginProps) {
   const { enqueueSnackbar } = useSnackbar();
 
   const userEmail = useAppSelector((state) => state.auth.email);
-
-  // TODO: if the account is not confirmed, resend email
+  const confirmedEmil = useAppSelector((state) => state.auth.confirmed_email);
 
   const signUpSubmit = async ({
     email,
@@ -48,7 +47,14 @@ export default function Login({ step }: LoginProps) {
   };
 
   const confirmSignUpSubmit = async ({ confirmCode }: ConfirmCode) => {
-    confirmSignUp({ confirmCode }, userEmail, navigate, enqueueSnackbar, t);
+    confirmSignUp(
+      { confirmCode },
+      userEmail,
+      navigate,
+      enqueueSnackbar,
+      t,
+      dispatch
+    );
   };
 
   const signInSubmit = (
@@ -90,6 +96,11 @@ export default function Login({ step }: LoginProps) {
             my: 1,
           }}
         >
+          {confirmedEmil && (
+            <Alert severity="warning" sx={{ my: 2 }}>
+              {t("login.for_safety_reasons_type_your_password_again_to_log_in")}
+            </Alert>
+          )}
           {step === "register" && <RegisterForm submit={signUpSubmit} />}
           {step === "passwordRecovery" && <RecoveryForm />}
           {step === "confirmationCode" && (

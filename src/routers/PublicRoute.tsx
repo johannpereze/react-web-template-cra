@@ -2,7 +2,7 @@ import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { updateUser } from "../auth/authSlice";
+import { setUser } from "../auth/authSlice";
 import Backdrop from "../components/backdrop/Backdrop";
 
 interface PublicRouteProps {
@@ -24,7 +24,7 @@ export default function PublicRoute({ children }: PublicRouteProps) {
         sub,
       } = user.attributes;
       dispatch(
-        updateUser({
+        setUser({
           user_id: sub,
           email: _email,
           family_name: _family_name,

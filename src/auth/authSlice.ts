@@ -5,6 +5,7 @@ export interface AuthState {
   email: string;
   family_name: string;
   given_name: string;
+  confirmed_email?: string;
 }
 
 const initialState: AuthState = {
@@ -18,14 +19,18 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateUser: (state, action: PayloadAction<AuthState>) => ({
+    setUser: (state, action: PayloadAction<AuthState>) => ({
       ...state,
       ...action.payload,
     }),
     deleteUser: () => initialState,
+    setConfirEmail: (state, action: PayloadAction<string>) => ({
+      ...state,
+      confirmed_email: action.payload,
+    }),
   },
 });
 
-export const { updateUser, deleteUser } = authSlice.actions;
+export const { setUser, deleteUser, setConfirEmail } = authSlice.actions;
 
 export default authSlice.reducer;

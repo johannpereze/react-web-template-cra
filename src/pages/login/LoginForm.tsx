@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
+import { useAppSelector } from "../../app/hooks";
 import { LoginValues, SetSubmitting } from "../../auth/signIn";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
@@ -16,6 +17,7 @@ interface LoginFormProps {
 }
 export default function LoginForm({ submit }: LoginFormProps) {
   const { t } = useTranslation();
+  const confirmedEmil = useAppSelector((state) => state.auth.confirmed_email);
   const validationSchema = yup.object({
     email: yup.string().email().required(t("errors.login.email_is_required")),
     password: yup
@@ -26,7 +28,7 @@ export default function LoginForm({ submit }: LoginFormProps) {
 
   const formik = useFormik({
     initialValues: {
-      email: "sebas.jsp@gmail.com", // TODO: remove mail
+      email: confirmedEmil || "",
       password: "",
     },
     validationSchema,

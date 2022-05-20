@@ -50,6 +50,8 @@ const en = {
       email: "Email",
       first_name: "First name",
       forgot_password: "Forgot password?",
+      for_safety_reasons_type_your_password_again_to_log_in:
+        "For safety reasons type your password again to log in",
       go_back_to: "Go back to",
       i_accept: "I accept",
       incorrect_username_or_password: "Incorrect username or password",

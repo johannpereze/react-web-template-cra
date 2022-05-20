@@ -3,7 +3,7 @@ import { TFunction } from "react-i18next";
 import { NavigateFunction } from "react-router-dom";
 import { AppDispatch } from "../app/store";
 import errorHandler, { EnqueueSnackbar } from "../hooks/errorHandler";
-import { updateUser } from "./authSlice";
+import { setUser } from "./authSlice";
 import { LoginValues } from "./signIn";
 
 export interface UserAttributes extends LoginValues {
@@ -28,7 +28,7 @@ const signUp = async (
       },
     });
     dispatch(
-      updateUser({
+      setUser({
         user_id: "",
         email: user.getUsername(),
         family_name: "",
