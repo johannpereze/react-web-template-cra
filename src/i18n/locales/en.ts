@@ -41,6 +41,8 @@ const en = {
       already_registered: "Already registered?",
       an_account_with_the_given_email_already_exists:
         "An account with the given email already exists.",
+      attempt_limit_exceeded_please_try_after_some_time:
+        "Attempt limit exceeded, please try after some time.",
       confirm_email: "Confirm email",
       confirmation_code: "Confirmation Code",
       create_account: "Create Account",

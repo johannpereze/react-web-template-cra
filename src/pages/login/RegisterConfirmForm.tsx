@@ -1,4 +1,3 @@
-import { LoadingButton } from "@mui/lab";
 import { Alert, Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
@@ -101,19 +100,17 @@ export default function RegisterConfirmForm({
         sx={{ display: "flex", justifyContent: "end", mt: 2, mb: 1 }}
         variant="body2"
       >
-        <LoadingButton
+        <Button
           onClick={handleResendConfirmation}
           size="small"
-          // loading
           variant="outlined"
           type="button"
           disabled={disabled}
         >
-          {/* TODO: give better style and resend code after user lefts the page and the code expires */}
           {disabled
             ? `${t("login.wait_for_resend")} ${time}`
             : t("login.send_code_again")}
-        </LoadingButton>
+        </Button>
       </Typography>
     </Box>
   );

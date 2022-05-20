@@ -22,6 +22,9 @@ export default function errorHandler(
     case "An account with the given email already exists.":
       message = t("login.an_account_with_the_given_email_already_exists");
       break;
+    case "Attempt limit exceeded, please try after some time.":
+      message = t("login.an_account_with_the_given_email_already_exists");
+      break;
 
     default:
       break;
