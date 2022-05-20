@@ -17,7 +17,7 @@ const confirmSignUp = async (
   try {
     await Auth.confirmSignUp(userEmail, confirmCode);
 
-    navigate("/login");
+    navigate("/");
   } catch (error) {
     errorHandler(error, enqueueSnackbar, t);
   }

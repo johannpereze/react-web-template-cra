@@ -10,13 +10,17 @@ export interface LoginValues {
   password: string;
 }
 
+export type SetSubmitting = (isSubmitting: boolean) => void;
+
 const signIn = async (
   { email, password }: LoginValues,
   dispatch: AppDispatch,
   navigate: NavigateFunction,
   enqueueSnackbar: EnqueueSnackbar,
-  t: TFunction<"translation", undefined>
+  t: TFunction<"translation", undefined>,
+  setSubmitting: SetSubmitting
 ) => {
+  setSubmitting(true);
   try {
     const user = await Auth.signIn(email, password);
     const {
@@ -34,9 +38,21 @@ const signIn = async (
       })
     );
     navigate("/", { replace: true });
-  } catch (error) {
+    setSubmitting(false);
+  } catch (error: any) {
+    if (error.message === "User is not confirmed.") {
+      dispatch(
+        updateUser({
+          user_id: "",
+          email,
+          family_name: "",
+          given_name: "",
+        })
+      );
+      navigate("/login/confirmation-code");
+    }
     errorHandler(error, enqueueSnackbar, t);
-    // TODO: login button remains innactive
+    setSubmitting(false);
   }
 };
 

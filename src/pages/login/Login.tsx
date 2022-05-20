@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import confirmSignUp, { ConfirmCode } from "../../auth/confirmSignUp";
-import signIn, { LoginValues } from "../../auth/signIn";
+import signIn, { LoginValues, SetSubmitting } from "../../auth/signIn";
 import signUp, { UserAttributes } from "../../auth/signUp";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
@@ -25,7 +25,6 @@ export default function Login({ step }: LoginProps) {
 
   const userEmail = useAppSelector((state) => state.auth.email);
 
-  // TODO: handle error with incorrect user/password
   // TODO: if the account is not confirmed, resend email
 
   const signUpSubmit = async ({
@@ -52,8 +51,18 @@ export default function Login({ step }: LoginProps) {
     confirmSignUp({ confirmCode }, userEmail, navigate, enqueueSnackbar, t);
   };
 
-  const signInSubmit = ({ email, password }: LoginValues) => {
-    signIn({ email, password }, dispatch, navigate, enqueueSnackbar, t);
+  const signInSubmit = (
+    { email, password }: LoginValues,
+    setSubmitting: SetSubmitting
+  ) => {
+    signIn(
+      { email, password },
+      dispatch,
+      navigate,
+      enqueueSnackbar,
+      t,
+      setSubmitting
+    );
   };
 
   return (

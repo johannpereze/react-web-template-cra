@@ -1,6 +1,8 @@
+import { LoadingButton } from "@mui/lab";
 import { Alert, Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { useAppSelector } from "../../app/hooks";
@@ -12,13 +14,18 @@ interface RegisterConfirmFormProps {
   submit: (values: ConfirmCode) => void;
 }
 
+const waitingTimeForResend = 30;
+
 export default function RegisterConfirmForm({
   submit,
 }: RegisterConfirmFormProps) {
+  const [disabled, setDisabled] = useState(false);
+  const [codeSended, setCodeSended] = useState(false);
+  const [time, setTime] = useState(waitingTimeForResend);
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const username = useAppSelector((state) => state.auth.user_id);
+  const userEmail = useAppSelector((state) => state.auth.email);
 
   const validationSchema = yup.object({
     confirmCode: yup
@@ -41,8 +48,31 @@ export default function RegisterConfirmForm({
   });
 
   const handleResendConfirmation = async () => {
-    resendAuthConfirmation(username, enqueueSnackbar, t);
+    resendAuthConfirmation(userEmail, enqueueSnackbar, t);
+    setDisabled(true);
+    setCodeSended(true);
   };
+
+  useEffect(() => {
+    // TODO: any
+    let intervalId: any;
+    if (codeSended) {
+      setTimeout(() => {
+        setDisabled(false);
+        clearInterval(intervalId);
+        setTime(waitingTimeForResend);
+      }, waitingTimeForResend * 1000);
+
+      intervalId = setInterval(() => {
+        if (time > 0) {
+          setTime((prev) => prev - 1);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [codeSended]);
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>
@@ -71,10 +101,19 @@ export default function RegisterConfirmForm({
         sx={{ display: "flex", justifyContent: "end", mt: 2, mb: 1 }}
         variant="body2"
       >
-        <Button onClick={handleResendConfirmation}>
+        <LoadingButton
+          onClick={handleResendConfirmation}
+          size="small"
+          // loading
+          variant="outlined"
+          type="button"
+          disabled={disabled}
+        >
           {/* TODO: give better style and resend code after user lefts the page and the code expires */}
-          {t("login.send_code_again")}
-        </Button>
+          {disabled
+            ? `${t("login.wait_for_resend")} ${time}`
+            : t("login.send_code_again")}
+        </LoadingButton>
       </Typography>
     </Box>
   );

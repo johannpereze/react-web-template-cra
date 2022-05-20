@@ -66,6 +66,7 @@ const en = {
       send_code_again: "Send code again",
       user_name: "User Name",
       username: "Username",
+      wait_for_resend: "Wait for resend:",
     },
   },
 };

@@ -1,14 +1,18 @@
-import { Box, Button, Link, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Box, Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
-import { LoginValues } from "../../auth/signIn";
+import { LoginValues, SetSubmitting } from "../../auth/signIn";
 import PasswordField from "../../components/passwordField/PasswordField";
 import TextField from "../../components/textField/TextField";
 
 interface LoginFormProps {
-  submit: ({ email, password }: LoginValues) => void;
+  submit: (
+    { email, password }: LoginValues,
+    setSubmitting: SetSubmitting
+  ) => void;
 }
 export default function LoginForm({ submit }: LoginFormProps) {
   const { t } = useTranslation();
@@ -26,8 +30,8 @@ export default function LoginForm({ submit }: LoginFormProps) {
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      submit(values);
+    onSubmit: (values, { setSubmitting }) => {
+      submit(values, setSubmitting);
     },
     validateOnBlur: true,
     validateOnMount: true,
@@ -51,15 +55,16 @@ export default function LoginForm({ submit }: LoginFormProps) {
           label={t("login.password")}
         />
       </Box>
-      <Button
+      <LoadingButton
         fullWidth
         variant="contained"
         type="submit"
         disabled={formik.isSubmitting || !formik.isValid}
         sx={{ mt: 3 }}
+        loading={formik.isSubmitting}
       >
         {t("login.log_in")}
-      </Button>
+      </LoadingButton>
       <Typography
         sx={{ display: "flex", justifyContent: "end", mt: 2, mb: 1 }}
         variant="body2"
