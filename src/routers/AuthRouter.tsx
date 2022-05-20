@@ -1,7 +1,9 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useAppSelector } from "../app/hooks";
 import Login from "../pages/login/Login";
 
 export default function AuthRouter() {
+  const userEmail = useAppSelector((state) => state.auth.email);
   return (
     <Routes>
       <Route path="register" element={<Login step="register" />} />
@@ -11,7 +13,13 @@ export default function AuthRouter() {
       />
       <Route
         path="confirmation-code"
-        element={<Login step="confirmationCode" />}
+        element={
+          userEmail === "" ? (
+            <Navigate to="/login" />
+          ) : (
+            <Login step="confirmationCode" />
+          )
+        }
       />
       <Route path="/" element={<Login step="login" />} />
       {/* TODO: Create error 404 component */}
